@@ -60,14 +60,16 @@ fetch(queryURL)
                 'width': '180px',
                 'margin': '10px',
                 'align-content': 'center' });
-                const forecastDate = $("<p>").text(`${element.dt_txt}`);
+
+                const forecastDate = $("<p>").text(dayjs(element.dt_txt).format("DD/MM/YYYY"));
+
                 const forecastIcon = $("<img>").attr("src",`http://openweathermap.org/img/w/${forecastData.list[i].weather[0].icon}.png`);
                 const forecastTemp = $("<p>").text(`Temp: ${element.main.temp} °C`);
                 const forecastWind = $("<p>").text(`Wind: ${element.wind.speed} KPH`);
                 const forecastHum = $("<p>").text(`Humidity: ${element.main.humidity}%`);
 
                 createCardForecast.append(forecastDate,forecastIcon,forecastTemp,forecastWind,forecastHum);
-                forecast.append(createCardForecast);
+                forecast.append(createCardForecast); // Add the div created for the cards
             }
     })
 
