@@ -5,13 +5,27 @@ function renderCities() {
     let storedCities = JSON.parse(localStorage.getItem("citiesHistory"))
     if (storedCities && storedCities.cities.length > 0) {
         for (let i = 0; i < storedCities.cities.length; i++) {
-            const MelCities = $("<button>").text(`${storedCities.cities[i]}`);
+            const MelCities = $("<button>").text(`${storedCities.cities[i]}`).addClass("clickHistoryButton").attr("id",`${storedCities.cities[i]}`);
             historyMel.append(MelCities);
         }
     }
 }
 renderCities();
 
+// Add clickable history buttons
+$(".clickHistoryButton").on("click", function (e) {
+    e.preventDefault();   
+    cleanRender();
+    crear(e.target.id);
+    
+});
+
+function cleanRender(){
+    const weatherToday = $("#today");
+    weatherToday.empty();
+    const forecast = $("#forecast");
+    forecast.empty(); 
+}
 //listening the click event and run the callback fuction
 $("#search-button").on("click", function (e) {
     e.preventDefault();
@@ -28,21 +42,18 @@ $("#search-button").on("click", function (e) {
         localStorage.setItem("citiesHistory", JSON.stringify(storedCities));
     }
     renderCities();
-    const weatherToday = $("#today");
-    weatherToday.empty();
-    const forecast = $("#forecast");
-    forecast.empty();
+    cleanRender();
 
-    // Add clickable history buttons??
-    // const MelCities = $("<button>").text(`${storedCity.cities[i]}`).addClass("clickHistoryButton");
-    // $(".clickHistoryButton").on("click", function (e) {
-    //     e.preventDefault();
 
-    
-    // Here we are building the URL we need to query the database
+    crear(searchInput); 
+
+});
+
+function crear (searchInput) {
+       // Here we are building the URL we need to query the database
     const APIKey = "83b63f4667133ba418e4c4dff4868cf3";
     const queryURL = `http://api.openweathermap.org/geo/1.0/direct?q=${searchInput}&appid=${APIKey}`;
-    // We then created an Fetch call
+       // We then created an Fetch call
     fetch(queryURL)
         .then(function (response) {
             return response.json();
@@ -50,7 +61,8 @@ $("#search-button").on("click", function (e) {
         .then(function (data) {
             console.log(data);
             const chosenCity = $("<h4>").text(`${data[0].name} ${dayjs().format("(DD/MM/YYYY)")}`); //Show the name of the city and the date with dayjs
-            // Fetch call for the current day weather data
+
+               // Fetch call for the current day weather data
             const weatherQueryUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${data[0].lat}&lon=${data[0].lon}&units=metric&appid=${APIKey}`
             fetch(weatherQueryUrl)
                 .then(function (response) {
@@ -67,7 +79,7 @@ $("#search-button").on("click", function (e) {
                     weatherToday.append(chosenCity, weatherTemp, weatherWind, weatherHum);
                     chosenCity.append(weatherIcon);
                 })
-            // Fetch call for the forecast weather data
+               // Fetch call for the forecast weather data
             const forecastQueryUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${data[0].lat}&lon=${lon = data[0].lon}&appid=${APIKey}&units=metric`;
             fetch(forecastQueryUrl)
                 .then(function (response) {
@@ -93,8 +105,8 @@ $("#search-button").on("click", function (e) {
                         const forecastWind = $("<p>").text(`Wind: ${element.wind.speed} KPH`);
                         const forecastHum = $("<p>").text(`Humidity: ${element.main.humidity}%`);
                         createCardForecast.append(forecastDate, forecastIcon, forecastTemp, forecastWind, forecastHum);
-                        forecast.append(createCardForecast); // Add the div created for the cards
+                           forecast.append(createCardForecast); // Add the div created for the cards
                     }
                 })
         })
-});
+}

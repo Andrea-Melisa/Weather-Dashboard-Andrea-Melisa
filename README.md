@@ -45,7 +45,7 @@ If you refresh the page, your tasks should remain.
 
 Here you have a screenshot from the web page:
 
-![web intro](assets/images/Screenshot-weather-dashboard.png)
+![web intro](assets/images/Screenshot-weather-dashboard-1.png)
 
 
 ## Credits
