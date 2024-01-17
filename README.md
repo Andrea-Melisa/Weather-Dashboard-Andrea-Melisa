@@ -68,8 +68,12 @@ https://openweathermap.org/forecast5
 Please refer to the LICENSE in the repo.
 
 ## Badges
-*HTML 44.7%
 
-*JavaScript 55.3%
+*JavaScript 66.1%
+
+*HTML 33.9%
+
+*JQUERY
+
 
 

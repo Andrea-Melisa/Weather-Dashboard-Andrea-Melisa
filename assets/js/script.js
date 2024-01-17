@@ -43,8 +43,6 @@ $("#search-button").on("click", function (e) {
     }
     renderHistoryCities();
     cleanRenderCityTodayAndForecast();
-
-
     renderCityTodayAndForecast(searchInput); 
 
 });
