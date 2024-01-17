@@ -1,5 +1,5 @@
 // Using the local storage
-function renderCities() {
+function renderHistoryCities() {
     const historyMel = $("#history");
     historyMel.empty();
     let storedCities = JSON.parse(localStorage.getItem("citiesHistory"))
@@ -10,17 +10,17 @@ function renderCities() {
         }
     }
 }
-renderCities();
+renderHistoryCities();
 
 // Add clickable history buttons
 $(".clickHistoryButton").on("click", function (e) {
     e.preventDefault();   
-    cleanRender();
-    crear(e.target.id);
+    cleanRenderCityTodayAndForecast();
+    renderCityTodayAndForecast(e.target.id);
     
 });
 
-function cleanRender(){
+function cleanRenderCityTodayAndForecast(){
     const weatherToday = $("#today");
     weatherToday.empty();
     const forecast = $("#forecast");
@@ -41,15 +41,15 @@ $("#search-button").on("click", function (e) {
         storedCities.cities.push(searchInput);
         localStorage.setItem("citiesHistory", JSON.stringify(storedCities));
     }
-    renderCities();
-    cleanRender();
+    renderHistoryCities();
+    cleanRenderCityTodayAndForecast();
 
 
-    crear(searchInput); 
+    renderCityTodayAndForecast(searchInput); 
 
 });
 
-function crear (searchInput) {
+function renderCityTodayAndForecast (searchInput) {
        // Here we are building the URL we need to query the database
     const APIKey = "83b63f4667133ba418e4c4dff4868cf3";
     const queryURL = `http://api.openweathermap.org/geo/1.0/direct?q=${searchInput}&appid=${APIKey}`;
